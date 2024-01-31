@@ -185,6 +185,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'User' => App\Models\User::class,
         'Category' => App\Models\Category::class,
+        'Product' => App\Models\Product::class,
     ])->toArray(),
 
 ];
