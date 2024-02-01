@@ -18,11 +18,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::view('dashboard', 'dashboard.index')
-    ->name('dashboard.index');
-
 Route::middleware('guest')
     ->group(function () {
         Route::get('login', [LoginController::class, 'index'])->name('login');
         Route::post('login', [LoginController::class, 'store'])->name('login.store');
     });
+
+require_once __DIR__ . '/dashboard.php';
