@@ -23,17 +23,26 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
-        //
+        return response()
+            ->view('dashboard.category.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
+        request()->validate([
+            'name' => 'required|unique:categories,name',
+        ]);
+
+        Category::create(request()->only(['name']));
+
+        return redirect()
+            ->route('dashboard.categories.index')
+            ->with('success', 'Category successfully created.');
     }
 
     /**
