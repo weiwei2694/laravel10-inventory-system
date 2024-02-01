@@ -9,6 +9,14 @@
 @endsection
 
 @section('content')
+    {{-- Alert Success --}}
+    @if (session('success'))
+        <div class="alert alert-success mb-4" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
+    {{-- End Of Alert Success --}}
+
     <a href="{{ route('dashboard.users.create') }}" class="btn btn-primary">Create New User</a>
 
     {{-- Table --}}

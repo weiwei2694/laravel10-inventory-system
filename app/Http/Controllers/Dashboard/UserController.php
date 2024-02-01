@@ -23,17 +23,30 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
-        //
+        return response()
+            ->view('dashboard.user.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
+        request()->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        User::create(request()->only(['name', 'email', 'password']));
+
+        // TODO: send email verification to email user
+
+        return redirect()
+            ->route('dashboard.users.index')
+            ->with('success', 'User successfully created.');
     }
 
     /**
