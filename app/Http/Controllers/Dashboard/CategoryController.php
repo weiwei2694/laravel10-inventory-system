@@ -46,27 +46,29 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $category)
+    public function edit(Category $category): Response
     {
-        //
+        return response()
+            ->view('dashboard.category.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(Category $category)
     {
-        //
+        request()->validate([
+            'name' => "required|unique:categories,name,$category->id",
+        ]);
+
+        $category->name = request()->input('name');
+        $category->save();
+
+        return redirect()
+            ->route('dashboard.categories.index')
+            ->with('success', 'Category successfully updated.');
     }
 
     /**

@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <a href="{{ route('dashboard.users.index') }}" class="btn btn-primary">Back</a>
+    <a href="{{ route('dashboard.categories.index') }}" class="btn btn-primary">Back</a>
 
     <div class="mt-4">
         <form class="d-flex flex-column gap-3" method="POST" action="{{ route('dashboard.categories.store') }}">
