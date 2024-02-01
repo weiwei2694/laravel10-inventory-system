@@ -38,20 +38,16 @@
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->products->count() }}</td>
                         <td>{{ $category->created_at->diffForHumans() }}</td>
-                        @if ($category->id === auth()->id())
-                            <td>N/A</td>
-                        @else
-                            <td class="d-flex justify-items-center gap-2">
-                                <form action="{{ route('dashboard.categories.destroy', $category->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
+                        <td class="d-flex justify-items-center gap-2">
+                            <form action="{{ route('dashboard.categories.destroy', $category->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
 
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
-                                <a href="{{ route('dashboard.categories.edit', $category->id) }}"
-                                    class="btn btn-primary">Edit</a>
-                            </td>
-                        @endif
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                            <a href="{{ route('dashboard.categories.edit', $category->id) }}"
+                                class="btn btn-primary">Edit</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
