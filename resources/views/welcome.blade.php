@@ -1,18 +1,9 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.guest')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@section('title')
+    Home
+@endsection
 
-    <title>Laravel</title>
-
-    <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-</head>
-
-<body class="antialiased">
-    Bootstrap 5
-</body>
-
-</html>
+@section('content')
+    Content
+@endsection
