@@ -61,45 +61,25 @@
                                     Dashboard
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                {{-- <a class="nav-link d-flex align-items-center gap-2 {{ request()->routeIs('dashboard.index') ? 'active' : '' }}"
-                                    href="{{ route('dashboard.index') }}">
-                                    <i class="bi bi-house"></i>
-                                    Dashboard
-                                </a>
-                                <a class="nav-link d-flex align-items-center gap-2 {{ request()->routeIs('dashboard.posts*') ? 'active' : '' }}"
-                                    href="{{ route('dashboard.posts.index') }}">
-                                    <i class="bi bi-stickies"></i>
-                                    Posts
-                                </a>
-                                <a class="nav-link d-flex align-items-center gap-2 {{ request()->routeIs('dashboard.tags*') ? 'active' : '' }}"
-                                    href="{{ route('dashboard.tags.index') }}">
-                                    <i class="bi bi-tags"></i>
-                                    Tags
-                                </a>
-                                <a class="nav-link d-flex align-items-center gap-2 {{ request()->routeIs('dashboard.categories*') ? 'active' : '' }}"
-                                    href="{{ route('dashboard.categories.index') }}">
-                                    <i class="bi bi-border-all"></i>
-                                    Categories
-                                </a> --}}
-                            </li>
                         </ul>
 
-                        <h6
-                            class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
-                            <span>ADMIN</span>
-                            <i class="bi bi-wrench-adjustable"></i>
-                        </h6>
+                        @if (auth()->user()->role === App\Models\Role::ADMIN)
+                            <h6
+                                class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
+                                <span>ADMIN</span>
+                                <i class="bi bi-wrench-adjustable"></i>
+                            </h6>
 
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2"
-                                    href="{{ route('dashboard.users.index') }}">
-                                    <i class="bi bi-people"></i>
-                                    Users
-                                </a>
-                            </li>
-                        </ul>
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link d-flex align-items-center gap-2"
+                                        href="{{ route('dashboard.users.index') }}">
+                                        <i class="bi bi-people"></i>
+                                        Users
+                                    </a>
+                                </li>
+                            </ul>
+                        @endif
                     </div>
                 </div>
             </div>
