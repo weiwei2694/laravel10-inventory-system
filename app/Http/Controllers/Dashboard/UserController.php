@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -60,17 +62,40 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit(User $user): Response
     {
-        //
+        abort_if($user->role === Role::ADMIN, 403);
+
+        return response()
+            ->view('dashboard.user.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(User $user)
     {
-        //
+        abort_if($user->role === Role::ADMIN, 403);
+
+        $rules = [
+            'name' => 'required',
+            'email' => "required|email|unique:users,email,$user->id"
+        ];
+        if (request()->input('password')) {
+            $rules['password'] = 'required|min:8|confirmed';
+        }
+        request()->validate($rules);
+
+        $user->name = request()->input('name');
+        $user->email = request()->input('email');
+        if (request()->input('password')) {
+            $user->password = Hash::make(request()->input('password'));
+        }
+        $user->save();
+
+        return redirect()
+            ->route('dashboard.users.index')
+            ->with('success', 'User successfully updated.');
     }
 
     /**
