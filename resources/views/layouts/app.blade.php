@@ -61,6 +61,13 @@
                                     Dashboard
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center gap-2"
+                                    href="{{ route('dashboard.categories.index') }}">
+                                    <i class="bi bi-tag"></i>
+                                    Categories
+                                </a>
+                            </li>
                         </ul>
 
                         @if (auth()->user()->role === App\Models\Role::ADMIN)
