@@ -18,6 +18,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::view('dashboard', 'dashboard.index')
+    ->name('dashboard.index');
+
 Route::middleware('guest')
     ->group(function () {
         Route::get('login', [LoginController::class, 'index'])->name('login');
