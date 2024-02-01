@@ -57,7 +57,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        abort_if($user->id === auth()->id(), 403);
+
+        return response()
+            ->view('dashboard.user.show', compact('user'));
     }
 
     /**
