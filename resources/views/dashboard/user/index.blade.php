@@ -52,8 +52,9 @@
 
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
+                                    <a href="{{ route('dashboard.users.edit', $user->id) }}"
+                                        class="btn btn-primary">Edit</a>
                                 @endif
-                                <a href="{{ route('dashboard.users.edit', $user->id) }}" class="btn btn-primary">Edit</a>
                             </td>
                         @endif
                     </tr>
