@@ -188,6 +188,7 @@ return [
         'Product' => App\Models\Product::class,
         'Order' => App\Models\Order::class,
         'OrderItem' => App\Models\OrderItem::class,
+        'Role' => App\Models\Role::class,
     ])->toArray(),
 
 ];
