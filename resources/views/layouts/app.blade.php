@@ -94,9 +94,9 @@
                         <ul class="nav flex-column">
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center gap-2"
-                                    href="{{ route('dashboard.index') }}">
-                                    <i class="bi bi-house"></i>
-                                    Dashboard
+                                    href="{{ route('dashboard.users.index') }}">
+                                    <i class="bi bi-people"></i>
+                                    Users
                                 </a>
                             </li>
                         </ul>
