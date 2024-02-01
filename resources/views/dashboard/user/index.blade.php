@@ -41,7 +41,9 @@
                         <td>{{ $user->role == App\Models\Role::ADMIN ? 'Admin' : 'User' }}</td>
                         <td>{{ $user->created_at->diffForHumans() }}</td>
                         @if ($user->id === auth()->id())
-                            <td>N/A</td>
+                            <td>
+                                N/A
+                            </td>
                         @else
                             <td class="d-flex justify-items-center gap-2">
                                 <a href="{{ route('dashboard.users.show', $user->id) }}" class="btn btn-secondary">View</a>

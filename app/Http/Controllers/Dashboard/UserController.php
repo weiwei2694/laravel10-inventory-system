@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -73,7 +74,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(User $user)
+    public function update(User $user): RedirectResponse
     {
         abort_if($user->role === Role::ADMIN, 403);
 
@@ -101,8 +102,13 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(User $user): RedirectResponse
     {
-        //
+        abort_if($user->role === Role::ADMIN || auth()->id() === $user->id, 403);
+
+        $user->delete();
+        return redirect()
+            ->route('dashboard.users.index')
+            ->with('success', 'User successfully deleted.');
     }
 }
