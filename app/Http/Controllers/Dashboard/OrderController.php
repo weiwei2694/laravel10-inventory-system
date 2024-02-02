@@ -60,17 +60,29 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Order $order)
+    public function edit(Order $order): Response
     {
-        //
+        abort_if(auth()->id() !== $order->user_id, 403);
+
+        return response()
+            ->view('dashboard.order.edit', compact('order'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Order $order)
+    public function update(OrderStoreUpdateRequest $request, Order $order): RedirectResponse
     {
-        //
+        abort_if(auth()->id() !== $order->user_id, 403);
+
+        $order->date = $request->input('date');
+        $order->customer_name = $request->input('customer_name');
+        $order->customer_email = $request->input('customer_email');
+        $order->save();
+
+        return redirect()
+            ->route('dashboard.orders.index')
+            ->with('success', 'Order successfully updated.');
     }
 
     /**
