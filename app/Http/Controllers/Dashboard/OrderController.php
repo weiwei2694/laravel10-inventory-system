@@ -90,6 +90,12 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        abort_if(auth()->id() !== $order->user_id, 403);
+
+        $order->delete();
+
+        return redirect()
+            ->route('dashboard.orders.index')
+            ->with('success', 'Order successfully deleted.');
     }
 }
