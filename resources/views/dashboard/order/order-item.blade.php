@@ -20,7 +20,6 @@
                     <th scope="col">Id</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Unit Price</th>
-                    <th scope="col">Total Price</th>
                     <th scope="col">Product Id</th>
                     <th scope="col">Order Id</th>
                 </tr>
@@ -33,8 +32,7 @@
                         <td>{{ $item->quantity }}</td>
                         <td>${{ number_format($item->unit_price) }}</td>
                         <td>{{ $item->product_id }}</td>
-                        <td>{{ $item->order_id }}</td>
-                        <td>{{ $order->date }}</td>
+                        <td>{{ $order->id }}</td>
                     </tr>
                 @endforeach
             </tbody>
