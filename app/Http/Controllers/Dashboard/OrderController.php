@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderStoreUpdateRequest;
 use App\Models\Order;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -23,17 +25,27 @@ class OrderController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
-        //
+        return response()
+            ->view('dashboard.order.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(OrderStoreUpdateRequest $request): RedirectResponse
     {
-        //
+        $order = new Order();
+        $order->date = $request->input('date');
+        $order->customer_name = $request->input('customer_name');
+        $order->customer_email = $request->input('customer_email');
+        $order->user_id = auth()->id();
+        $order->save();
+
+        return redirect()
+            ->route('dashboard.orders.index')
+            ->with('success', 'Order successfully created.');
     }
 
     /**
