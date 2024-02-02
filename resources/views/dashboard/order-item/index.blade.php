@@ -30,6 +30,7 @@
                     <th scope="col">Unit Price</th>
                     <th scope="col">Product Id</th>
                     <th scope="col">Order Id</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,6 +42,17 @@
                         <td>${{ number_format($item->unit_price) }}</td>
                         <td>{{ $item->product_id }}</td>
                         <td>{{ $item->order_id }}</td>
+                        <td class="d-flex justify-items-center gap-2">
+                            <a href="{{ route('dashboard.order-items.show', $item->id) }}"
+                                class="btn btn-secondary">View</a>
+                            <form action="{{ route('dashboard.order-items.destroy', $item->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                            <a href="{{ route('dashboard.order-items.edit', $item->id) }}" class="btn btn-primary">Edit</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
