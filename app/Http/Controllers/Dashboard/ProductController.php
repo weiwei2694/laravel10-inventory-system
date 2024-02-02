@@ -56,9 +56,10 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(Product $product): Response
     {
-        //
+        return response()
+            ->view('dashboard.product.show', compact('product'));
     }
 
     /**
