@@ -17,10 +17,22 @@ class ProductController extends Controller
      */
     public function index(): Response
     {
-        $products = Product::with(['user', 'category', 'orderItems'])->paginate(10);
+        $products = Product::with(['user', 'category', 'orderItems'])
+            ->whereHas('category', function ($query) {
+                $category = request()->input('category');
+                if ($category == 'All' || empty($category)) {
+                    return;
+                }
+
+                $query->where('name', request()->input('category', ''));
+            })
+            ->paginate(10)
+            ->appends(request()->all());
+        $categories = Category::all()->toArray();
+        $categories[] = ['name' => 'All'];
 
         return response()
-            ->view('dashboard.product.index', compact('products'));
+            ->view('dashboard.product.index', compact('products', 'categories'));
     }
 
     /**

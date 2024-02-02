@@ -17,7 +17,31 @@
     @endif
     {{-- End Of Alert Success --}}
 
-    <a href="{{ route('dashboard.products.create') }}" class="btn btn-primary">Create New Product</a>
+    <a href="{{ route('dashboard.products.create') }}" class="btn btn-primary mb-4">Create New Product</a>
+
+    {{-- Filter --}}
+    <form action="{{ route('dashboard.products.index') }}" method="GET">
+        {{-- Categories --}}
+        <div class="col-3">
+            <label for="category">Choose Category</label>
+            <select class="form-select" id="category" name="category" onchange="this.form.submit()">
+                @foreach ($categories as $category)
+                    @if (empty(request()->input('category')))
+                        <option value="{{ $category['name'] }}" selected>
+                            {{ $category['name'] }}</option>
+                    @elseif (request()->input('category') == $category['name'])
+                        <option value="{{ $category['name'] }}" selected>
+                            {{ $category['name'] }}</option>
+                    @else
+                        <option value="{{ $category['name'] }}">
+                            {{ $category['name'] }}</option>
+                    @endif
+                @endforeach
+            </select>
+        </div>
+        {{-- End Of Categories --}}
+    </form>
+    {{-- End Of Filter --}}
 
     {{-- Table --}}
     <div class="table-responsive mt-4">
