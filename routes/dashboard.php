@@ -15,5 +15,8 @@ Route::group(['middleware' => ['auth'], 'as' => 'dashboard.', 'prefix' => 'dashb
 # Admin
 Route::group(['middleware' => ['auth', 'admin'], 'as' => 'dashboard.', 'prefix' => 'dashboard'], function () {
     Route::resource('users', UserController::class);
+
+    Route::get('orders/{order}/order-items', [OrderController::class, 'orderItems'])
+        ->name('orders.orderItems');
     Route::resource('orders', OrderController::class);
 });

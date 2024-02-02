@@ -54,10 +54,15 @@
         {{-- End Of User Id --}}
 
         {{-- Order Items --}}
-        <div class="form-floating">
-            <input id="order-items" type="text" class="form-control" name="order-items" required
-                autocomplete="order-items" placeholder="Order Items" value="{{ $order->orderItems->count() }}" disabled />
-            <label for="order-items">Order Items</label>
+        <div class="input-group">
+            <div class="form-floating">
+                <input id="order-items" type="text" class="form-control" name="order-items" required
+                    autocomplete="order-items" placeholder="Order Items" value="{{ $order->orderItems->count() }}"
+                    disabled />
+                <label for="order-items">Order Items</label>
+            </div>
+            <a href="{{ route('dashboard.orders.orderItems', $order->id) }}" class="input-group-text">View
+                more</a>
         </div>
         {{-- End Of Order Items --}}
 

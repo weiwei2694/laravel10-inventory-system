@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderStoreUpdateRequest;
 use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -97,5 +98,13 @@ class OrderController extends Controller
         return redirect()
             ->route('dashboard.orders.index')
             ->with('success', 'Order successfully deleted.');
+    }
+
+    public function orderItems(Order $order): Response
+    {
+        $orderItems = OrderItem::with('product')->where('order_id', $order->id)->paginate(10);
+
+        return response()
+            ->view('dashboard.order.order-item', compact('order', 'orderItems'));
     }
 }
