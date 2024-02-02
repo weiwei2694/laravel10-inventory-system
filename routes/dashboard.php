@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Dashboard\{UserController, CategoryController, OrderController, ProductController};
+use App\Http\Controllers\Dashboard\{UserController, CategoryController, OrderController, OrderItemController, ProductController};
 use Illuminate\Support\Facades\Route;
 
 # User
@@ -19,4 +19,6 @@ Route::group(['middleware' => ['auth', 'admin'], 'as' => 'dashboard.', 'prefix' 
     Route::get('orders/{order}/order-items', [OrderController::class, 'orderItems'])
         ->name('orders.orderItems');
     Route::resource('orders', OrderController::class);
+
+    Route::resource('order-items', OrderItemController::class);
 });
