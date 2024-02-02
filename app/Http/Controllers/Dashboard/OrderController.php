@@ -39,9 +39,10 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Order $order)
+    public function show(Order $order): Response
     {
-        //
+        return response()
+            ->view('dashboard.order.show', compact('order'));
     }
 
     /**
