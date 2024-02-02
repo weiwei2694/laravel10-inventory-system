@@ -25,12 +25,12 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
+                    <th scope="col">Id</th>
                     <th scope="col">Customer Name</th>
                     <th scope="col">Customer Email</th>
                     <th scope="col">Total Price</th>
                     <th scope="col">Order Items</th>
                     <th scope="col">Date</th>
-                    <th scope="col">Created At</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -38,12 +38,12 @@
                 @foreach ($orders as $order)
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
+                        <td>{{ $order->id }}</td>
                         <td>{{ $order->customer_name }}</td>
                         <td>{{ $order->customer_email }}</td>
                         <td>${{ number_format($order->total_price, 2) }}</td>
                         <td>{{ $order->orderItems->count() }}</td>
                         <td>{{ $order->date }}</td>
-                        <td>{{ $order->created_at->diffForHumans() }}</td>
                         <td class="d-flex justify-items-center gap-2">
                             <a href="{{ route('dashboard.orders.show', $order->id) }}" class="btn btn-secondary">View</a>
                             <form action="{{ route('dashboard.orders.destroy', $order->id) }}" method="POST">

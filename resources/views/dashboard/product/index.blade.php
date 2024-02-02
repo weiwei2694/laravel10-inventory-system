@@ -49,12 +49,12 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
+                    <th scope="col">Id</th>
                     <th scope="col">Name</th>
                     <th scope="col">Price</th>
                     <th scope="col">Quantity In Stock</th>
                     <th scope="col">Category</th>
                     <th scope="col">Order Items</th>
-                    <th scope="col">Created At</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -62,12 +62,12 @@
                 @foreach ($products as $product)
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
+                        <td>{{ $product->id }}</td>
                         <td>{{ $product->name }}</td>
                         <td>${{ number_format($product->price, 2) }}</td>
                         <td>{{ $product->quantity_in_stock }}</td>
                         <td>{{ $product->category->name }}</td>
                         <td>{{ $product->orderItems->count() }}</td>
-                        <td>{{ $product->created_at->diffForHumans() }}</td>
                         <td class="d-flex justify-items-center gap-2">
                             <a href="{{ route('dashboard.products.show', $product->id) }}"
                                 class="btn btn-secondary">View</a>

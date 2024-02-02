@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <a href="{{ url()->previous() }}" class="btn btn-success">Back</a>
+    <a href="{{ route('dashboard.users.index') }}" class="btn btn-primary">Back</a>
 
     <div class="mt-4 d-flex flex-column gap-3">
         {{-- Name --}}
@@ -35,5 +35,21 @@
             <label for="role">Role</label>
         </div>
         {{-- End Of Role --}}
+
+        {{-- Created At --}}
+        <div class="form-floating">
+            <input id="created-at" type="text" class="form-control" name="created-at" required autocomplete="created-at"
+                placeholder="Created At" value="{{ $user->created_at->diffForHumans() }}" disabled />
+            <label for="created-at">Created At</label>
+        </div>
+        {{-- End Of Created At --}}
+
+        {{-- Updated At --}}
+        <div class="form-floating">
+            <input id="updated-at" type="text" class="form-control" name="updated-at" required autocomplete="updated-at"
+                placeholder="Updated At" value="{{ $user->updated_at->diffForHumans() }}" disabled />
+            <label for="updated-at">Updated At</label>
+        </div>
+        {{-- End Of Updated At --}}
     </div>
 @endsection

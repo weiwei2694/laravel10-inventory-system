@@ -25,9 +25,9 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
+                    <th scope="col">Id</th>
                     <th scope="col">Name</th>
                     <th scope="col">Products</th>
-                    <th scope="col">Created At</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -35,9 +35,9 @@
                 @foreach ($categories as $category)
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
+                        <td>{{ $category->id }}</td>
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->products->count() }}</td>
-                        <td>{{ $category->created_at->diffForHumans() }}</td>
                         <td class="d-flex justify-items-center gap-2">
                             <form action="{{ route('dashboard.categories.destroy', $category->id) }}" method="POST">
                                 @csrf

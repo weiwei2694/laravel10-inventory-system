@@ -51,5 +51,29 @@
             <label for="category">Category</label>
         </div>
         {{-- End Of Categories --}}
+
+        {{-- User Id --}}
+        <div class="form-floating">
+            <input id="user-id" type="text" class="form-control" name="user-id" required autocomplete="user-id"
+                placeholder="User Id" value="{{ $product->user_id }}" disabled />
+            <label for="user-id">User Id</label>
+        </div>
+        {{-- End Of User Id --}}
+
+        {{-- Created At --}}
+        <div class="form-floating">
+            <input id="created-at" type="text" class="form-control" name="created-at" required autocomplete="created-at"
+                placeholder="Created At" value="{{ $product->created_at->diffForHumans() }}" disabled />
+            <label for="created-at">Created At</label>
+        </div>
+        {{-- End Of Created At --}}
+
+        {{-- Updated At --}}
+        <div class="form-floating">
+            <input id="updated-at" type="text" class="form-control" name="updated-at" required autocomplete="updated-at"
+                placeholder="Updated At" value="{{ $product->updated_at->diffForHumans() }}" disabled />
+            <label for="updated-at">Updated At</label>
+        </div>
+        {{-- End Of Updated At --}}
     </div>
 @endsection

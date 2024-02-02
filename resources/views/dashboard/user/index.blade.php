@@ -25,10 +25,10 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
+                    <th scope="col">Id</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Role</th>
-                    <th scope="col">Created At</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -36,10 +36,10 @@
                 @foreach ($users as $user)
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
+                        <td>{{ $user->id }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->role == App\Models\Role::ADMIN ? 'Admin' : 'User' }}</td>
-                        <td>{{ $user->created_at->diffForHumans() }}</td>
                         @if ($user->id === auth()->id())
                             <td>
                                 N/A
