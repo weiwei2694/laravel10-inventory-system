@@ -92,6 +92,13 @@
                                         Users
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link d-flex align-items-center gap-2"
+                                        href="{{ route('dashboard.orders.index') }}">
+                                        <i class="bi bi-cart"></i>
+                                        Orders
+                                    </a>
+                                </li>
                             </ul>
                         @endif
                     </div>

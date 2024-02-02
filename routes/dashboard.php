@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Dashboard\{UserController, CategoryController, ProductController};
+use App\Http\Controllers\Dashboard\{UserController, CategoryController, OrderController, ProductController};
 use Illuminate\Support\Facades\Route;
 
 # User
@@ -15,4 +15,5 @@ Route::group(['middleware' => ['auth'], 'as' => 'dashboard.', 'prefix' => 'dashb
 # Admin
 Route::group(['middleware' => ['auth', 'admin'], 'as' => 'dashboard.', 'prefix' => 'dashboard'], function () {
     Route::resource('users', UserController::class);
+    Route::resource('orders', OrderController::class);
 });
