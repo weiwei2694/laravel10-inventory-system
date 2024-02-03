@@ -83,9 +83,10 @@ class OrderItemController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(OrderItem $orderItem)
+    public function show(OrderItem $orderItem): Response
     {
-        //
+        return response()
+            ->view('dashboard.order-item.show', compact('orderItem'));
     }
 
     /**
