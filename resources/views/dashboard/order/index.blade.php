@@ -46,13 +46,15 @@
                         <td>{{ $order->date }}</td>
                         <td class="d-flex justify-items-center gap-2">
                             <a href="{{ route('dashboard.orders.show', $order->id) }}" class="btn btn-secondary">View</a>
-                            <form action="{{ route('dashboard.orders.destroy', $order->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
+                            @can('order-edit-update-delete', $order)
+                                <form action="{{ route('dashboard.orders.destroy', $order->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
 
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                            <a href="{{ route('dashboard.orders.edit', $order->id) }}" class="btn btn-primary">Edit</a>
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                                <a href="{{ route('dashboard.orders.edit', $order->id) }}" class="btn btn-primary">Edit</a>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

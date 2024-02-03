@@ -7,7 +7,6 @@ use App\Http\Requests\OrderStoreUpdateRequest;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class OrderController extends Controller
@@ -63,7 +62,7 @@ class OrderController extends Controller
      */
     public function edit(Order $order): Response
     {
-        abort_if(auth()->id() !== $order->user_id, 403);
+        $this->authorize('order-edit-update-delete', $order);
 
         return response()
             ->view('dashboard.order.edit', compact('order'));
@@ -74,7 +73,7 @@ class OrderController extends Controller
      */
     public function update(OrderStoreUpdateRequest $request, Order $order): RedirectResponse
     {
-        abort_if(auth()->id() !== $order->user_id, 403);
+        $this->authorize('order-edit-update-delete', $order);
 
         $order->date = $request->input('date');
         $order->customer_name = $request->input('customer_name');
@@ -91,7 +90,7 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        abort_if(auth()->id() !== $order->user_id, 403);
+        $this->authorize('order-edit-update-delete', $order);
 
         $order->delete();
 
