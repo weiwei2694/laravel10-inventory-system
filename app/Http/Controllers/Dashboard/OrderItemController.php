@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderItemStoreUpdateRequest;
+use App\Http\Requests\OrderItemUpdateRequest;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -89,17 +91,54 @@ class OrderItemController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(OrderItem $orderItem)
+    public function edit(OrderItem $orderItem): Response
     {
-        //
+        return response()
+            ->view('dashboard.order-item.edit', compact('orderItem'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, OrderItem $orderItem)
+    public function update(OrderItemUpdateRequest $request, OrderItem $orderItem): RedirectResponse
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            $order = Order::find($orderItem->order_id);
+            $product = Product::find($orderItem->product_id);
+
+            $quantity = $request->input('quantity') - $orderItem->quantity;
+            if ($request->input('quantity') > ($product->quantity_in_stock + $orderItem->quantity)) {
+                return redirect()
+                    ->back()
+                    ->withErrors(['quantity' => 'The quantity is greater than the quantity in stock.']);
+            }
+
+            $product->quantity_in_stock -= $quantity;
+            $product->save();
+
+            $total_price_current_order_item = $orderItem->quantity * $orderItem->unit_price;
+            $total_price_product = $product->price * $request->input('quantity');
+            $total_price = $order->total_price - $total_price_current_order_item;
+            $order->total_price = $total_price + $total_price_product;
+            $order->save();
+
+            $orderItem->quantity = $request->input('quantity');
+            $orderItem->save();
+
+            DB::commit();
+
+            return redirect()
+                ->route('dashboard.order-items.index')
+                ->with('success', 'OrderItem Successfully updated.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()
+                ->route('dashboard.order-items.index')
+                ->with('error', 'Failed to update OrderItem.');
+        }
     }
 
     /**
