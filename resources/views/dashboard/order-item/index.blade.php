@@ -9,6 +9,14 @@
 @endsection
 
 @section('content')
+    {{-- Alert Danger --}}
+    @if (session('error'))
+        <div class="alert alert-danger mb-4" role="alert">
+            {{ session('error') }}
+        </div>
+    @endif
+    {{-- End Of Alert Danger --}}
+
     {{-- Alert Success --}}
     @if (session('success'))
         <div class="alert alert-success mb-4" role="alert">
