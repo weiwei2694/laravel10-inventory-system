@@ -3,16 +3,10 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\OrderItemStoreUpdateRequest;
-use App\Http\Requests\OrderItemUpdateRequest;
-use App\Models\Order;
-use App\Models\OrderItem;
-use App\Models\Product;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Http\Requests\{OrderItemStoreRequest, OrderItemUpdateRequest};
+use App\Models\{Order, OrderItem, Product};
+use Illuminate\Http\{Response, RedirectResponse};
 use Illuminate\Support\Facades\DB;
-use PhpParser\Node\Stmt\TryCatch;
 
 class OrderItemController extends Controller
 {
@@ -39,7 +33,7 @@ class OrderItemController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(OrderItemStoreUpdateRequest $request)
+    public function store(OrderItemStoreRequest $request)
     {
         DB::beginTransaction();
 
