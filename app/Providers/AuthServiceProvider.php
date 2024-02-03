@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Order;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Access\Response;
@@ -24,12 +25,30 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('order-edit-update-delete', function (User $user, Order $order) {
+        # Dashboard/OrderController
+        Gate::define('order-edit-update-delete', function (User $user, Order $order): Response {
             if ($user->id !== $order->user_id) {
-                return Response::deny('FORBIDDEN', 403);
+                return Response::deny();
             }
 
             return Response::allow();
+        });
+
+        # Dashboard/UserController
+        Gate::define('user-show', function (User $user, User $currUser): Response {
+            return $user->id === $currUser->id
+                ? Response::deny()
+                : Response::allow();
+        });
+        Gate::define('user-edit-update', function (User $user, User $currUser): Response {
+            return $currUser->role === Role::ADMIN
+                ? Response::deny()
+                : Response::allow();
+        });
+        Gate::define('user-destroy', function (User $user, User $currUser): Response {
+            return $currUser->role === Role::ADMIN || $user->id === $currUser->id
+                ? Response::deny()
+                : Response::allow();
         });
     }
 }

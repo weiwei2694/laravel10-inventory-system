@@ -57,7 +57,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        abort_if($user->id === auth()->id(), 403);
+        $this->authorize('user-show', $user);
 
         return response()
             ->view('dashboard.user.show', compact('user'));
@@ -68,7 +68,7 @@ class UserController extends Controller
      */
     public function edit(User $user): Response
     {
-        abort_if($user->role === Role::ADMIN, 403);
+        $this->authorize('user-edit-update', $user);
 
         return response()
             ->view('dashboard.user.edit', compact('user'));
@@ -79,7 +79,7 @@ class UserController extends Controller
      */
     public function update(User $user): RedirectResponse
     {
-        abort_if($user->role === Role::ADMIN, 403);
+        $this->authorize('user-edit-update', $user);
 
         $rules = [
             'name' => 'required',
@@ -107,7 +107,7 @@ class UserController extends Controller
      */
     public function destroy(User $user): RedirectResponse
     {
-        abort_if($user->role === Role::ADMIN || auth()->id() === $user->id, 403);
+        $this->authorize('user-destroy', $user);
 
         $user->delete();
         return redirect()

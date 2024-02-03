@@ -47,16 +47,17 @@
                         @else
                             <td class="d-flex justify-items-center gap-2">
                                 <a href="{{ route('dashboard.users.show', $user->id) }}" class="btn btn-secondary">View</a>
-                                @if ($user->role != App\Models\Role::ADMIN)
+                                @can('user-destroy', $user)
                                     <form action="{{ route('dashboard.users.destroy', $user->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
 
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
-                                    <a href="{{ route('dashboard.users.edit', $user->id) }}"
-                                        class="btn btn-primary">Edit</a>
-                                @endif
+                                @endcan
+                                @can('user-edit-update', $user)
+                                    <a href="{{ route('dashboard.users.edit', $user->id) }}" class="btn btn-primary">Edit</a>
+                                @endcan
                             </td>
                         @endif
                     </tr>
