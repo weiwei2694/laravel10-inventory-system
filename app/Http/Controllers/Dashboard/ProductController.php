@@ -79,7 +79,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product): Response
     {
-        abort_if(auth()->id() !== $product->user_id, 403);
+        $this->authorize('product-edit-update-destroy', $product);
 
         $categories = Category::all();
 
@@ -92,7 +92,7 @@ class ProductController extends Controller
      */
     public function update(ProductStoreUpdateRequest $request, Product $product): RedirectResponse
     {
-        abort_if(auth()->id() !== $product->user_id, 403);
+        $this->authorize('product-edit-update-destroy', $product);
 
         $product->name = $request->input('name');
         $product->description = $request->input('description');
@@ -112,7 +112,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product): RedirectResponse
     {
-        abort_if(auth()->id() !== $product->user_id, 403);
+        $this->authorize('product-edit-update-destroy', $product);
 
         $product->delete();
 

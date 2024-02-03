@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
@@ -49,6 +50,13 @@ class AuthServiceProvider extends ServiceProvider
             return $currUser->role === Role::ADMIN || $user->id === $currUser->id
                 ? Response::deny()
                 : Response::allow();
+        });
+
+        # Dashboard/ProductController
+        Gate::define('product-edit-update-destroy', function (User $user, Product $product): Response {
+            return $user->id === $product->user_id
+                ? Response::allow()
+                : Response::deny();
         });
     }
 }

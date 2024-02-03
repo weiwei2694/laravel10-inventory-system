@@ -71,16 +71,15 @@
                         <td class="d-flex justify-items-center gap-2">
                             <a href="{{ route('dashboard.products.show', $product->id) }}"
                                 class="btn btn-secondary">View</a>
-                            @if (auth()->id() === $product->user_id)
+                            @can('product-edit-update-destroy', $product)
                                 <form action="{{ route('dashboard.products.destroy', $product->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
 
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
-                                <a href="{{ route('dashboard.products.edit', $product->id) }}"
-                                    class="btn btn-primary">Edit</a>
-                            @endif
+                                <a href="{{ route('dashboard.products.edit', $product->id) }}" class="btn btn-primary">Edit</a>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach
