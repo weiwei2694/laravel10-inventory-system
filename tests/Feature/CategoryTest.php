@@ -3,9 +3,8 @@
 namespace Tests\Feature;
 
 use Database\Seeders\{CategorySeeder, RoleSeeder, UserSeeder};
-use App\Models\{Category, Role, User};
+use App\Models\{Category, User};
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
@@ -85,7 +84,8 @@ class CategoryTest extends TestCase
 
     public function testStoreAuthorization()
     {
-        $this->post('/dashboard/categories')
+        $this->withSession(['_token' => csrf_token()])
+            ->post('/dashboard/categories')
             ->assertStatus(302)
             ->assertRedirect('/login');
     }
@@ -149,11 +149,25 @@ class CategoryTest extends TestCase
             ])->assertSessionHasErrors(['name']);
     }
 
+    public function testUpdateNotFound()
+    {
+        $category = Category::where('name', 'test')->first();
+        $user = User::where('role', 1)->first();
+
+        $this->actingAs($user)
+            ->withSession(['_token' => csrf_token()])
+            ->put("/dashboard/categories/" . $category->id + 10, [
+                'name' => 'test update name'
+            ])->assertStatus(404)
+            ->assertSeeText(['404', 'Not Found']);
+    }
+
     public function testUpdateAuthorization()
     {
         $category = Category::where('name', 'test')->first();
 
-        $this->put("/dashboard/categories/$category->id")
+        $this->withSession(['_token' => csrf_token()])
+            ->put("/dashboard/categories/$category->id")
             ->assertStatus(302)
             ->assertRedirect('/login');
     }
