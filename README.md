@@ -1,66 +1,88 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Inventory System: Laravel 10, Bootstrap 5.3, MySQL, Blade Template, Eloquent
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is my first project after I have been learning Laravel for approximately 3-4 weeks.
+And I tried to apply all the things I learned, to create a simple Inventory System, even though it is not API based, but I am quite proud, because I succeeded in designing the System from scratch.
+And in the future, if I learn enough things about the Laravel API, I will try to implement it in the API version.
 
-## About Laravel
+<img src="public/assets/products-preview.PNG" alt="Products Preview" />
+<img src="public/assets/orders-preview.PNG" alt="Products Preview" />
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Key Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Roles System
+- Categories
+- Products
+- Orders
+- Order Items
+- Users
+- Crud
+- Responsive Web
+- Synchronous Data Between Orders, Order Items and Products
+- MYSQL
+- Blade Template
+- Unit Testing
+- Authentication
+- Authorization
+- Route Management
+- Pagination
+- Eloquent
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Cloning the repository
 
-## Learning Laravel
+```bash
+git clone https://github.com/weiwei2694/laravel10-inventory-system.git
+cd laravel10-inventory-system
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Install packages
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+*package*
+```bash
+npm install
+yarn install
+pnpm install
+bun install
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+*composer*
+```bash
+composer install
+composer update
+```
 
-## Laravel Sponsors
+## Setup .env file
+For setting up your environment variables, you can start by copying the `.env.example` file to create your `.env` file. The `.env.example` file typically contains examples or placeholders for the environment variables your application needs. To simplify this process, you can use the following command:
+```bash
+cp .env.example .env
+```
+This command will duplicate the `.env.example` file and create a new file named `.env`, allowing you to fill in the actual values for your environment variables.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+After creating your `.env` file, ensure that your Laravel application is ready to run smoothly by executing the following command to generate an application key:
+```bash
+php artisan key:generate
+```
+This command will generate a unique key for your application, which is essential for security and encryption purposes.
 
-### Premium Partners
+Next, make sure that the database configuration in your .env file points to your MySQL database. Update the `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD` variables with the appropriate values for your MySQL database setup.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+To prepare for running unit tests, you should create a separate `.env` file specifically for testing purposes. Copy the contents of your .env file and create a new file named `.env.testing.` In the `.env.testing` file, modify the `DB_DATABASE` variable to a testing database name of your choice, such as `mysql_testing`. This ensures that your unit tests run independently from your main database, preventing any data loss or interference with your production data.
 
-## Contributing
+Ensure that both your `.env` and `.env.testing` files are properly configured before proceeding with running your Laravel application or executing unit tests.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Running Applications
 
-## Code of Conduct
+To start your application, make sure to follow the steps below:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+1. **Styling with Bootstrap**: Before running the application, ensure you have prepared the styling using Bootstrap. Run the following command to compile your assets:
+   ```bash
+   npm run dev
+   ```
+   This will ensure that the user interface of your application is styled properly using Bootstrap.
+   
+2. **Starting the Server**: After ensuring the styling has been applied, you can start the Laravel PHP server by running the command:
+   ```bash
+   php artisan serve
+   ```
+   Make sure to run the command in a separate terminal. This will start your local development server and make your application accessible through your web browser.
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+By following these steps, you can start running your application and access it through your web browser for further development. Happy exploring and developing your application!
