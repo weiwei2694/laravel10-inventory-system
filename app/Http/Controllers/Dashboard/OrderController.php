@@ -101,6 +101,8 @@ class OrderController extends Controller
 
     public function orderItems(Order $order): Response
     {
+        $this->authorize('order-edit-update-delete', $order);
+
         $orderItems = OrderItem::with('product')->where('order_id', $order->id)->paginate(10);
 
         return response()
