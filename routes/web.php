@@ -23,5 +23,3 @@ Route::middleware('guest')
         Route::get('login', [LoginController::class, 'index'])->name('login');
         Route::post('login', [LoginController::class, 'store'])->name('login.store');
     });
-
-require_once __DIR__ . '/dashboard.php';

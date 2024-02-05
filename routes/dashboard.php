@@ -4,7 +4,7 @@ use App\Http\Controllers\Dashboard\{UserController, CategoryController, OrderCon
 use Illuminate\Support\Facades\Route;
 
 # User
-Route::group(['middleware' => ['auth'], 'as' => 'dashboard.', 'prefix' => 'dashboard'], function () {
+Route::group(['middleware' => ['auth']], function () {
     Route::view('/', 'dashboard.index')
         ->name('index');
     Route::resource('categories', CategoryController::class)
@@ -13,7 +13,7 @@ Route::group(['middleware' => ['auth'], 'as' => 'dashboard.', 'prefix' => 'dashb
 });
 
 # Admin
-Route::group(['middleware' => ['auth', 'admin'], 'as' => 'dashboard.', 'prefix' => 'dashboard'], function () {
+Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::resource('users', UserController::class);
 
     Route::get('orders/{order}/order-items', [OrderController::class, 'orderItems'])
