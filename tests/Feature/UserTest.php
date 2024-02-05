@@ -7,8 +7,6 @@ use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Session;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -62,6 +60,10 @@ class UserTest extends TestCase
     {
         $user = User::where('role', 1)->first();
 
+        $this->get('/dashboard/users/create')
+            ->assertStatus(302)
+            ->assertRedirect('/login');
+
         $this->actingAs($user)
             ->get('/dashboard/users/create')
             ->assertStatus(403)
@@ -102,6 +104,15 @@ class UserTest extends TestCase
     {
         $user = User::where('role', 1)->first();
 
+        $this->withSession(['_token' => csrf_token()])
+            ->post('/dashboard/users', [
+                'name' => 'test3',
+                'email' => 'test3@gmail.com',
+                'password' => 'password',
+                'password_confirmation' => 'password'
+            ])->assertStatus(302)
+            ->assertRedirect('/login');
+
         $this->actingAs($user)
             ->withSession(['_token' => csrf_token()])
             ->post('/dashboard/users', [
@@ -126,15 +137,14 @@ class UserTest extends TestCase
             ->assertSeeText('Save'); # button submit
     }
 
-    public function testEditAuthorization()
+    public function testEditNotFound()
     {
-        $user = User::where('role', 1)->first();
         $admin = User::where('role', 2)->first();
 
-        $this->actingAs($user)
-            ->get("/dashboard/users/$admin->id/edit")
-            ->assertStatus(403)
-            ->assertSeeText(['403', 'Forbidden']);
+        $this->actingAs($admin)
+            ->get('/dashboard/users/' . $admin->id + 10 . '/edit')
+            ->assertStatus(404)
+            ->assertSeeText(['404', 'Not Found']);
     }
 
     public function testEditAuthenticatedUserCannotUpdateOwnProfile()
@@ -158,14 +168,19 @@ class UserTest extends TestCase
             ->assertSeeText(['403', 'Forbidden']);
     }
 
-    public function testEditNotFound()
+    public function testEditAuthorization()
     {
+        $user = User::where('role', 1)->first();
         $admin = User::where('role', 2)->first();
 
-        $this->actingAs($admin)
-            ->get('/dashboard/users/' . $admin->id + 10 . '/edit')
-            ->assertStatus(404)
-            ->assertSeeText(['404', 'Not Found']);
+        $this->get("/dashboard/users/$admin->id/edit")
+            ->assertStatus(302)
+            ->assertRedirect('/login');
+
+        $this->actingAs($user)
+            ->get("/dashboard/users/$admin->id/edit")
+            ->assertStatus(403)
+            ->assertSeeText(['403', 'Forbidden']);
     }
 
     public function testUpdateSuccess()
@@ -196,12 +211,62 @@ class UserTest extends TestCase
             ])->assertSessionHasErrors(['name', 'email']);
     }
 
+    public function testUpdateNotFound()
+    {
+        $user = User::where('role', 1)->first();
+        $admin = User::where('role', 2)->first();
+
+        $this->actingAs($admin)
+            ->withSession(['_token' => csrf_token()])
+            ->put("/dashboard/users/" . $user->id + 10, [
+                'name' => 'test3 update',
+                'email' => 'test3update@gmail.com',
+            ])->assertStatus(404)
+            ->assertSeeText(['404', 'Not Found']);
+    }
+
+    public function testUpdateAuthenticatedUserCannotDeleteOwnProfile()
+    {
+        $admin = User::where('role', 2)->first();
+
+        $this->actingAs($admin)
+            ->withSession(['_token' => csrf_token()])
+            ->put("/dashboard/users/" . $admin->id, [
+                'name' => 'test3 update',
+                'email' => 'test3update@gmail.com',
+            ])->assertStatus(403)
+            ->assertSeeText(['403', 'Forbidden']);
+    }
+
+    public function testUpdateCannotUpdateAdminUser()
+    {
+        $sec_admin = User::factory()->create(['role' => 2]);
+        $admin = User::where('role', 2)->first();
+
+        $this->actingAs($admin)
+            ->withSession(['_token' => csrf_token()])
+            ->put("/dashboard/users/" . $sec_admin->id, [
+                'name' => 'test3 update',
+                'email' => 'test3update@gmail.com',
+            ])->assertStatus(403)
+            ->assertSeeText(['403', 'Forbidden']);
+    }
+
     public function testUpdateAuthorization()
     {
         $user = User::where('role', 1)->first();
         $admin = User::where('role', 2)->first();
 
+        $this->withSession(['_token' => csrf_token()])
+            ->put("/dashboard/users/$admin->id", [
+                'name' => 'test3 update',
+                'email' => 'test3update@gmail.com'
+            ])
+            ->assertStatus(302)
+            ->assertRedirect('/login');
+
         $this->actingAs($user)
+            ->withSession(['_token' => csrf_token()])
             ->put("/dashboard/users/$admin->id", [
                 'name' => 'test3 update',
                 'email' => 'test3update@gmail.com'
@@ -223,12 +288,53 @@ class UserTest extends TestCase
             ->assertSessionHas('success', 'User successfully deleted.');
     }
 
+    public function testDeleteNotFound()
+    {
+        $user = User::where('role', 1)->first();
+        $admin = User::where('role', 2)->first();
+
+        $this->actingAs($admin)
+            ->withSession(['_token' => csrf_token()])
+            ->delete("/dashboard/users/" . $user->id + 10)
+            ->assertStatus(404)
+            ->assertSeeText(['404', 'Not Found']);
+    }
+
+    public function testDeleteAuthenticatedUserCannotDeleteOwnProfile()
+    {
+        $admin = User::where('role', 2)->first();
+
+        $this->actingAs($admin)
+            ->withSession(['_token' => csrf_token()])
+            ->delete('/dashboard/users/' . $admin->id)
+            ->assertStatus(403)
+            ->assertSeeText(['403', 'Forbidden']);
+    }
+
+    public function testDeleteCannotDeleteAdminUser()
+    {
+        $sec_admin = User::factory()->create(['role' => 2]);
+        $admin = User::where('role', 2)->first();
+
+        $this->actingAs($admin)
+            ->withSession(['_token' => csrf_token()])
+            ->delete('/dashboard/users/' . $sec_admin->id)
+            ->assertStatus(403)
+            ->assertSeeText(['403', 'Forbidden']);
+    }
+
     public function testDeleteAuthorization()
     {
         $user = User::where('role', 1)->first();
         $admin = User::where('role', 2)->first();
 
+        $this->withSession(['_token' => csrf_token()])
+            ->delete("/dashboard/users/$admin->id")
+            ->assertStatus(302)
+            ->assertRedirect('/login');
+
         $this->actingAs($user)
+            ->withSession(['_token' => csrf_token()])
             ->delete("/dashboard/users/$admin->id")
             ->assertStatus(403)
             ->assertSeeText(['403', 'Forbidden']);
