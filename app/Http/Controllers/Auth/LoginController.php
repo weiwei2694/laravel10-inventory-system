@@ -31,4 +31,13 @@ class LoginController extends Controller
         request()->session()->regenerate();
         return redirect()->intended(RouteServiceProvider::DASHBOARD);
     }
+
+    public function logout(): RedirectResponse
+    {
+        auth()->logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+
+        return redirect()->route('login');
+    }
 }

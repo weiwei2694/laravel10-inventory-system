@@ -108,6 +108,22 @@
                                 </li>
                             </ul>
                         @endif
+
+                        <hr class="my-3">
+
+                        <ul class="nav flex-column mb-auto">
+                            <li class="nav-item">
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+
+                                    <button type="submit" class="nav-link d-flex align-items-center gap-2"
+                                        href="#">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                        Sign out
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
