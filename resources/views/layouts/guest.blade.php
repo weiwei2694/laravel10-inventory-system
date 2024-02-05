@@ -22,17 +22,7 @@
 </head>
 
 <body>
-    <header class="p-3 text-bg-dark">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <div class="ms-auto">
-                    <a href="{{ route('login') }}" class="btn btn-outline-light me-2">Login</a>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main class="container mt-3">
+    <main class="container d-flex align-items-center justify-content-center" style="height: 100vh;">
         @yield('content')
     </main>
 </body>
